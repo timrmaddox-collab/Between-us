@@ -1,59 +1,26 @@
-const decks={Closer:[
-{stage:1,type:"QUESTION",text:"What is one small moment with me that has stayed with you?"},
-{stage:1,type:"QUESTION",text:"When do you feel most like we are on the same team?"},
-{stage:1,type:"QUESTION",text:"What part of our everyday life would you miss most if it disappeared?"},
-{stage:1,type:"QUESTION",text:"What is something I do that makes a hard day feel lighter?"},
-{stage:2,type:"QUESTION",text:"What did you misunderstand about me when we first met?"},
-{stage:2,type:"QUESTION",text:"Which version of yourself do you feel safest showing me?"},
-{stage:2,type:"QUESTION",text:"What is a dream you have quietly kept alive?"},
-{stage:2,type:"QUESTION",text:"What would we do more often if nobody else's expectations mattered?"},
-{stage:3,type:"FLIRTY",text:"What was the first detail about me that caught your attention?"},
-{stage:3,type:"FLIRTY",text:"What kind of kiss from me do you wish happened more often?"},
-{stage:3,type:"QUESTION",text:"What makes you feel wanted beyond physical attraction?"},
-{stage:3,type:"HUMOR",text:"If our relationship had a warning label, what would it say?"},
-{stage:4,type:"INTIMACY",text:"What helps you feel relaxed enough to be fully present with me?"},
-{stage:4,type:"INTIMACY",text:"What kind of touch would you like more of in ordinary moments?"},
-{stage:4,type:"QUESTION",text:"What is something intimate you would like us to talk about without pressure?"},
-{stage:4,type:"HUMOR",text:"What is your most ridiculous but oddly specific romantic fantasy?"},
-{stage:5,type:"FANTASY",text:"What is a new setting or atmosphere you think could make a date feel electric?"},
-{stage:5,type:"FANTASY",text:"Is there a playful role or dynamic you have been curious to discuss?"},
-{stage:5,type:"QUESTION",text:"What boundary helps you feel safer when exploring something new?"},
-{stage:5,type:"DARE",text:"Give your partner a slow, affectionate kiss. Ask first; either person can choose a cheek kiss instead."},
-{stage:6,type:"FANTASY",text:"What desire feels exciting to share as a conversation, even if it never becomes a plan?"},
-{stage:6,type:"QUESTION",text:"How should we signal 'slow down' or 'stop' when something feels uncertain?"},
-{stage:6,type:"DARE",text:"Whisper one thing you find irresistible about your partner. Keep it sincere."},
-{stage:6,type:"HUMOR",text:"If your bedroom had a customer review page, what would the funniest review say?"}
-],Bolder:[
-{stage:1,type:"QUESTION",text:"What is something you wish I asked you about more often?"},
-{stage:1,type:"QUESTION",text:"When have you felt quietly proud of us?"},
-{stage:1,type:"QUESTION",text:"What do you think we handle better together than we realize?"},
-{stage:1,type:"QUESTION",text:"What is one way I have changed your idea of partnership?"},
-{stage:2,type:"QUESTION",text:"What old version of yourself do you sometimes miss?"},
-{stage:2,type:"QUESTION",text:"What truth about your ambitions do you rarely say out loud?"},
-{stage:2,type:"QUESTION",text:"What would a brave next chapter look like for us?"},
-{stage:2,type:"QUESTION",text:"What do you want to learn or experience before another decade passes?"},
-{stage:3,type:"FLIRTY",text:"What do I do unintentionally that you find attractive?"},
-{stage:3,type:"FLIRTY",text:"Describe a moment when you wanted to pull me closer but didn't."},
-{stage:3,type:"QUESTION",text:"What makes anticipation more exciting than the event itself?"},
-{stage:3,type:"HUMOR",text:"What would our friends say is our most predictable couple behavior?"},
-{stage:4,type:"INTIMACY",text:"What kind of affection makes you feel pursued in the best way?"},
-{stage:4,type:"INTIMACY",text:"What would make it easier to talk openly about changing needs?"},
-{stage:4,type:"QUESTION",text:"What is a curiosity you would like me to hear without jumping to conclusions?"},
-{stage:4,type:"HUMOR",text:"Invent a ridiculous secret code word for 'come flirt with me.'"},
-{stage:5,type:"FANTASY",text:"Which sounds more intriguing to discuss: taking the lead, giving up control, or trading roles? Why?"},
-{stage:5,type:"FANTASY",text:"What kind of playful anticipation or teasing would you enjoy exploring together?"},
-{stage:5,type:"QUESTION",text:"What would be an absolute no, a maybe, and a yes worth discussing?"},
-{stage:5,type:"DARE",text:"Offer your partner a 30-second shoulder or hand massage; let them choose and set the pressure."},
-{stage:6,type:"FANTASY",text:"What consensual power dynamic or roleplay scenario intrigues you as a fantasy?"},
-{stage:6,type:"QUESTION",text:"What check-in would help both of us feel secure after trying something vulnerable?"},
-{stage:6,type:"DARE",text:"Tell your partner one desire you are comfortable discussing. They only need to listen."},
-{stage:6,type:"HUMOR",text:"Name your imaginary couple's secret society and its most absurd rule."}
-]};
-const stages=["RECONNECT","REDISCOVER","INTRIGUE","EXPLORE","TEMPT","UNINHIBITED"];
-let deck="Closer",drawn=[],current=null;
+const packs=window.BETWEEN_US_PACKS||{};
+const stages=window.BETWEEN_US_STAGE_NAMES||["Reconnect","Rediscover","Intrigue","Explore","Tempt","Uninhibited"];
 const $=id=>document.getElementById(id);
-function draw(){const cards=decks[deck];if(drawn.length===cards.length)drawn=[];const pool=cards.map((c,i)=>({...c,i})).filter(c=>!drawn.includes(c.i));const card=pool[Math.floor(Math.random()*pool.length)];drawn.push(card.i);current=card;$("deck-label").textContent=deck.toUpperCase();$("stage-label").textContent="STAGE "+card.stage+" · "+stages[card.stage-1];$("type-label").textContent=card.type;$("prompt").textContent=card.text;}
-$("start").addEventListener("click",()=>{$("welcome-title").textContent="Take your time. Stay curious.";$("welcome").hidden=true;$("game").hidden=false;draw();});
-$("next").addEventListener("click",draw);$("pass").addEventListener("click",draw);
+const safeLoad=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
+const state={deck:"Closer",stage:1,drawn:[],current:null,paused:false,favorites:safeLoad("bu-favorites",[]),custom:safeLoad("bu-custom",[]),history:safeLoad("bu-history",[]),tab:"favorites"};
+const save=(key,value)=>{try{localStorage.setItem("bu-"+key,JSON.stringify(value))}catch{}};
+const allCards=()=>[...(packs[state.deck]||[]),...state.custom.filter(c=>c.deck===state.deck)];
+function filtered(){return allCards().filter(c=>c.stage>=state.stage)}
+function setDeck(name){state.deck=name;document.querySelectorAll(".deck-choice").forEach(b=>b.classList.toggle("selected",b.dataset.deck===name))}
+function draw(){const cards=filtered();let pool=cards.filter(c=>!state.drawn.includes(c.id));if(!pool.length){state.drawn=[];pool=cards}if(!pool.length)return;const card=pool[Math.floor(Math.random()*pool.length)];state.drawn.push(card.id);state.current=card;renderCard();save("session",{deck:state.deck,stage:state.stage,drawn:state.drawn});}
+function renderCard(){const c=state.current;if(!c)return;$("deck-label").textContent=state.deck.toUpperCase();$("stage-label").textContent="STAGE "+c.stage+" · "+stages[c.stage-1].toUpperCase();$("type-label").textContent=c.type;$("prompt").textContent=c.text;$("card-stage").textContent="BETWEEN US · "+stages[c.stage-1];$("count-label").textContent=state.drawn.length+" / "+filtered().length;$("progress-fill").style.width=Math.min(100,state.drawn.length/Math.max(1,filtered().length)*100)+"%";$("remaining").textContent=Math.max(0,filtered().length-state.drawn.length)+" cards remaining before reshuffle";const fav=state.favorites.some(x=>x.id===c.id);$("favorite").textContent=fav?"★":"☆";$("favorite").classList.toggle("is-favorite",fav);}
+function start(){state.stage=Number($("start-stage").value);state.drawn=[];state.current=null;$("welcome").hidden=true;$("library").hidden=true;$("game").hidden=false;draw();}
+function next(){if(state.current){state.history.unshift({...state.current,deck:state.deck,when:new Date().toISOString()});state.history=state.history.slice(0,100);save("history",state.history)}draw()}
+function toggleFavorite(){if(!state.current)return;const i=state.favorites.findIndex(x=>x.id===state.current.id);if(i>=0)state.favorites.splice(i,1);else state.favorites.unshift({...state.current,deck:state.deck});save("favorites",state.favorites);renderCard()}
+function showLibrary(tab="favorites"){$("welcome").hidden=true;$("game").hidden=true;$("library").hidden=false;state.tab=tab;document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));renderLibrary()}
+function renderLibrary(){const items=state.tab==="favorites"?state.favorites:state.tab==="custom"?state.custom:state.history;$("library-content").innerHTML="";if(!items.length){$("library-content").innerHTML='<p class="empty">Nothing here yet. Save a card with ☆ while playing, or add your own below.</p>';return}items.forEach((c,i)=>{const row=document.createElement("article");row.className="saved-card";const meta=document.createElement("small");meta.textContent=(c.deck||"CUSTOM")+" · "+c.type+" · STAGE "+(c.stage||"—");const p=document.createElement("p");p.textContent=c.text;row.append(meta,p);if(state.tab!=="history"){const del=document.createElement("button");del.className="text-button";del.textContent="Remove";del.addEventListener("click",()=>{items.splice(i,1);save(state.tab,items);renderLibrary()});row.append(del)}$("library-content").append(row)})}
+document.querySelectorAll(".deck-choice").forEach(b=>b.addEventListener("click",()=>setDeck(b.dataset.deck)));
+$("start").addEventListener("click",start);$("next").addEventListener("click",next);$("pass").addEventListener("click",next);$("favorite").addEventListener("click",toggleFavorite);
+$("home").addEventListener("click",()=>{$("game").hidden=true;$("welcome").hidden=false});
 $("how").addEventListener("click",()=>$("rules").showModal());$("close-rules").addEventListener("click",()=>$("rules").close());
-if("serviceWorker" in navigator && location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+$("pause").addEventListener("click",()=>$("pause-dialog").showModal());$("resume").addEventListener("click",()=>$("pause-dialog").close());
+$("lower").addEventListener("click",()=>{state.stage=Math.max(1,state.stage-1);state.drawn=[];draw()});$("higher").addEventListener("click",()=>{state.stage=Math.min(6,state.stage+1);state.drawn=[];draw()});
+$("history-open").addEventListener("click",()=>showLibrary("history"));$("library-close").addEventListener("click",()=>{$("library").hidden=true;$("welcome").hidden=false});
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showLibrary(b.dataset.tab)));
+$("add-custom").addEventListener("click",()=>{const text=$("custom-text").value.trim();if(!text)return;state.custom.unshift({id:"custom-"+Date.now(),deck:$("custom-deck").value,stage:Math.max(1,state.stage),type:$("custom-type").value,text});save("custom",state.custom);$("custom-text").value="";if(state.tab==="custom")renderLibrary();else showLibrary("custom")});
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
