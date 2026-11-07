@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#210b14">
+<meta name="description" content="A couples card game to reconnect, rediscover, and explore together.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<title>Between Us</title>
+</head>
+<body>
+<main class="shell">
+  <header class="brand"><span class="eyebrow">A COUPLES CARD GAME</span><h1>Between Us</h1><p class="intro">A little deeper. A little bolder. Always together.</p></header>
+  <section class="welcome" aria-labelledby="welcome-title">
+    <p class="eyebrow">YOUR SPACE, YOUR PACE</p>
+    <h2 id="welcome-title">Make room for the conversations that matter.</h2>
+    <p>Choose a deck, find your rhythm, and follow curiosity. Either person can pass, pause, or stop at any time.</p>
+    <div class="actions"><button id="start" class="primary">Start with Closer</button><button id="how" class="secondary">How to play</button></div>
+  </section>
+  <section id="game" class="game" hidden aria-live="polite">
+    <div class="game-meta"><span id="deck-label">CLOSER</span><span id="stage-label">STAGE 1 · RECONNECT</span></div>
+    <article class="card"><span id="type-label" class="type">QUESTION</span><p id="prompt">What is one small moment with me that has stayed with you?</p></article>
+    <div class="actions"><button id="pass" class="secondary">Pass</button><button id="next" class="primary">Draw another</button></div>
+  </section>
+  <footer><span>18+ · Mutual respect · Enthusiastic consent</span><span>Made for the space between us.</span></footer>
+</main>
+<dialog id="rules"><h2>How to play</h2><p>Take turns reading each card aloud. Answer honestly, listen without judgment, and let either partner pass without explanation. A fantasy is a conversation, not an agreement to act on it. Real-life challenges require clear, enthusiastic agreement from both people.</p><button id="close-rules" class="primary">Got it</button></dialog>
+<script src="app.js" defer></script>
+</body>
+</html>
