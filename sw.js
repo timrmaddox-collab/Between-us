@@ -1,4 +1,4 @@
-const CACHE="between-us-v5";
+const CACHE="between-us-v6";
 const ASSETS=["./","./index.html","./styles.css","./app.js","./cards.js","./manifest.webmanifest","./icon.svg"];
 
 self.addEventListener("install",event=>{
@@ -21,7 +21,7 @@ self.addEventListener("fetch",event=>{
   if(event.request.method!=="GET") return;
   const url=new URL(event.request.url);
   const sameOrigin=url.origin===self.location.origin;
-  const refreshFirst=sameOrigin && (url.pathname.endsWith("/") || /\\.(html|js|css|webmanifest)$/.test(url.pathname));
+  const refreshFirst=sameOrigin && (url.pathname.endsWith("/") || /\.(html|js|css|webmanifest)$/.test(url.pathname));
 
   if(refreshFirst){
     event.respondWith(
