@@ -13,10 +13,10 @@
 <p class="eyebrow">YOUR SPACE, YOUR PACE</p><h2>Make room for the conversations that matter.</h2>
 <p>Four decks. Six stages. Hundreds of ways to reconnect, flirt, laugh, and explore — at a pace you choose.</p>
 <div class="deck-grid">
-<button class="deck-choice selected" data-deck="Closer"><strong>Closer</strong><span>Connection &amp; rediscovery</span><small>60 cards · Included</small></button>
-<button class="deck-choice" data-deck="Bolder"><strong>Bolder</strong><span>Honesty &amp; chemistry</span><small>60 cards · Included</small></button>
-<button class="deck-choice" data-deck="Chemistry"><strong>Chemistry</strong><span>Playful &amp; adventurous</span><small>60 cards · Expansion</small></button>
-<button class="deck-choice" data-deck="After Dark"><strong>After Dark</strong><span>Desire &amp; deeper exploration</span><small>60 cards · Expansion</small></button>
+<button class="deck-choice selected" data-deck="Closer"><strong>Closer</strong><span>Connection &amp; rediscovery</span><small>100 cards · Included</small></button>
+<button class="deck-choice" data-deck="Bolder"><strong>Bolder</strong><span>Honesty &amp; chemistry</span><small>100 cards · Included</small></button>
+<button class="deck-choice" data-deck="Chemistry"><strong>Chemistry</strong><span>Playful &amp; adventurous</span><small>100 cards · Expansion</small></button>
+<button class="deck-choice" data-deck="After Dark"><strong>After Dark</strong><span>Desire &amp; deeper exploration</span><small>100 cards · Expansion</small></button>
 </div>
 <div class="control-row"><label for="start-stage">Start at stage</label><select id="start-stage"><option value="1">1 · Reconnect</option><option value="2">2 · Rediscover</option><option value="3">3 · Intrigue</option><option value="4">4 · Explore</option><option value="5">5 · Tempt</option><option value="6">6 · Uninhibited</option></select></div>
 <button id="start" class="primary full">Start playing</button><button id="how" class="secondary full">How to play &amp; consent</button>
@@ -27,7 +27,7 @@
 <article class="card"><span id="type-label" class="type">QUESTION</span><p id="prompt"></p><span id="card-stage" class="card-stage"></span></article>
 <div class="actions"><button id="pass" class="secondary">Pass</button><button id="next" class="primary">Next card →</button></div>
 <div class="game-tools"><button id="lower" class="text-button">↓ Lighter</button><button id="pause" class="text-button">Ⅱ Pause</button><button id="higher" class="text-button">↑ Turn it up</button></div>
-<div class="mini-stats"><span id="remaining">60 cards in this deck</span><button id="history-open" class="text-button">Session history</button></div>
+<div class="mini-stats"><span id="remaining">60 cards in this deck</span><button id="compare-open" class="text-button">Compare answers</button><button id="history-open" class="text-button">History</button></div>
 </section>
 <section id="library" class="panel library" hidden><div class="section-head"><div><span class="eyebrow">YOUR PRIVATE COLLECTION</span><h2>Saved cards</h2></div><button id="library-close" class="icon-button">×</button></div>
 <div class="tabs"><button class="tab active" data-tab="favorites">Favorites</button><button class="tab" data-tab="custom">My cards</button><button class="tab" data-tab="history">History</button></div><div id="library-content"></div>
@@ -35,6 +35,7 @@
 <footer><span>18+ · Mutual respect · Enthusiastic consent</span><span>Made for the space between us.</span></footer>
 </main>
 <dialog id="rules"><h2>Play your way</h2><p>Take turns reading aloud. Listen with curiosity, not judgment. Either person can pass, pause, or stop at any time — no explanation required.</p><p><strong>Fantasy is not consent or a plan.</strong> A real-life challenge only happens with enthusiastic agreement from everyone involved. Talk about boundaries, safer practices, privacy, and aftercare before experimenting. Agree on a clear stop word or signal. Never pressure, record, or share private content without explicit permission.</p><p>Some cards are conversation starters, not instructions. Skip anything that does not feel right.</p><button id="close-rules" class="primary full">Got it</button></dialog>
+<dialog id="compare-dialog"><h2>Two perspectives</h2><p>Take turns entering your answer. This is a shared-device activity: each person should choose what they are comfortable revealing. Answers are not saved or sent anywhere.</p><label for="answer-one">Partner one</label><textarea id="answer-one" placeholder="Your answer…" maxlength="1200"></textarea><label for="answer-two">Partner two</label><textarea id="answer-two" placeholder="Your answer…" maxlength="1200"></textarea><button id="reveal-answers" class="primary full">Reveal both answers</button><div id="answer-reveal" hidden><h3>Partner one</h3><p id="reveal-one"></p><h3>Partner two</h3><p id="reveal-two"></p><p class="soft-note">Take turns listening. Look for what surprised you, what you share, and what you want to understand better.</p></div><button id="close-compare" class="secondary full">Close &amp; clear answers</button></dialog>
 <dialog id="pause-dialog"><h2>Take a moment</h2><p>There is no timer and no finish line. Take a breath, reconnect, or call it a night. Your progress is saved on this device.</p><button id="resume" class="primary full">Resume when ready</button></dialog>
 <script src="cards.js" defer></script><script src="app.js" defer></script>
 </body></html>
