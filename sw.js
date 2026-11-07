@@ -1,4 +1,4 @@
-const CACHE="between-us-v6";
+const CACHE="between-us-v7";
 const ASSETS=["./","./index.html","./styles.css","./app.js","./cards.js","./manifest.webmanifest","./icon.svg"];
 
 self.addEventListener("install",event=>{
