@@ -20,7 +20,10 @@ $("home").addEventListener("click",()=>{$("game").hidden=true;$("welcome").hidde
 $("how").addEventListener("click",()=>$("rules").showModal());$("close-rules").addEventListener("click",()=>$("rules").close());
 $("pause").addEventListener("click",()=>$("pause-dialog").showModal());$("resume").addEventListener("click",()=>$("pause-dialog").close());
 $("lower").addEventListener("click",()=>{state.stage=Math.max(1,state.stage-1);state.drawn=[];draw()});$("higher").addEventListener("click",()=>{state.stage=Math.min(6,state.stage+1);state.drawn=[];draw()});
-$("history-open").addEventListener("click",()=>showLibrary("history"));$("library-close").addEventListener("click",()=>{$("library").hidden=true;$("welcome").hidden=false});
+$("history-open").addEventListener("click",()=>showLibrary("history"));
+$("compare-open").addEventListener("click",()=>{$("answer-one").value="";$("answer-two").value="";$("answer-reveal").hidden=true;$("compare-dialog").showModal()});
+$("reveal-answers").addEventListener("click",()=>{const one=$("answer-one").value.trim(),two=$("answer-two").value.trim();if(!one||!two){$("answer-reveal").hidden=true;return} $("reveal-one").textContent=one;$("reveal-two").textContent=two;$("answer-reveal").hidden=false});
+$("close-compare").addEventListener("click",()=>{$("answer-one").value="";$("answer-two").value="";$("answer-reveal").hidden=true;$("compare-dialog").close()});$("library-close").addEventListener("click",()=>{$("library").hidden=true;$("welcome").hidden=false});
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showLibrary(b.dataset.tab)));
 $("add-custom").addEventListener("click",()=>{const text=$("custom-text").value.trim();if(!text)return;state.custom.unshift({id:"custom-"+Date.now(),deck:$("custom-deck").value,stage:Math.max(1,state.stage),type:$("custom-type").value,text});save("custom",state.custom);$("custom-text").value="";if(state.tab==="custom")renderLibrary();else showLibrary("custom")});
 if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
